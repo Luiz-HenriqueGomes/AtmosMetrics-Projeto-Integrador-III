@@ -1,0 +1,67 @@
+# ============================================================
+# AtmosMetrics — Docker Compose
+# ============================================================
+# Subir tudo:           docker compose up -d
+# Parar tudo:           docker compose down
+# Logs do backend:      docker compose logs -f backend
+# Logs do banco:        docker compose logs -f db
+# Acessar o banco:      docker compose exec db psql -U atmos_user -d atmosmetrics
+# ============================================================
+
+services:
+  db:
+    image: postgis/postgis:16-3.4-alpine
+    container_name: atmosmetrics_db
+    restart: unless-stopped
+    env_file:
+      - .env
+    ports:
+      - "${POSTGRES_PORT:-5432}:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./database/init:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: atmosmetrics_backend
+    restart: unless-stopped
+    env_file:
+      - .env
+    environment:
+      # Sobrescreve POSTGRES_HOST para apontar ao serviço interno do Docker
+      - POSTGRES_HOST=db
+    ports:
+      - "8000:8000"
+    volumes:
+      # Hot-reload: qualquer alteração no código reflete sem rebuild
+      - ./backend:/backend
+    depends_on:
+      db:
+        condition: service_healthy
+
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: atmosmetrics_pgadmin
+    restart: unless-stopped
+    env_file:
+      - .env
+    ports:
+      - "8080:80"
+    depends_on:
+      db:
+        condition: service_healthy
+
+  # frontend: rodando localmente via "npm run dev" (dentro da pasta frontend/)
+  # Para produção, usar Dockerfile.prod com Nginx
+
+volumes:
+  pgdata:
+    name: atmosmetrics_pgdata
+
