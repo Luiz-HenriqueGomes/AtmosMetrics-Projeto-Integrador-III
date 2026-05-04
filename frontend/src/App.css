@@ -1,0 +1,14 @@
+/* ===== Layout Principal ===== */
+.app-layout {
+  display: flex;
+  min-height: 100vh;
+  width: 100%;
+}
+
+.app-main {
+  margin-left: 240px; /* largura da sidebar fixa */
+  flex: 1;
+  padding: 2rem 2.5rem;
+  max-width: 1400px;
+  width: 100%;
+}
