@@ -1,0 +1,97 @@
+/* ============================================================
+   AtmosMetrics — Global Design System
+   Dark Mode premium com Glassmorphism e paleta ambiental
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+/* --- Tokens de Design --- */
+:root {
+  /* Cores Base */
+  --bg-deep:        #060b14;
+  --bg-surface:     #0d1422;
+  --bg-elevated:    #111827;
+
+  /* Glass */
+  --glass-bg:       rgba(17, 24, 39, 0.55);
+  --glass-border:   rgba(255, 255, 255, 0.07);
+  --glass-hover:    rgba(255, 255, 255, 0.04);
+
+  /* Azul Atmosférico (accent principal) */
+  --accent:         #3b82f6;
+  --accent-light:   #60a5fa;
+  --accent-glow:    rgba(59, 130, 246, 0.25);
+
+  /* Vermelho Queimada (danger/destaque de alertas) */
+  --fire:           #f97316;
+  --fire-light:     #fb923c;
+  --fire-glow:      rgba(249, 115, 22, 0.25);
+
+  /* Verde Floresta (positivo/ok) */
+  --green:          #10b981;
+  --green-glow:     rgba(16, 185, 129, 0.2);
+
+  /* Texto */
+  --text-primary:   #f1f5f9;
+  --text-secondary: #94a3b8;
+  --text-muted:     #475569;
+
+  /* Raios e Sombra */
+  --radius-sm:      8px;
+  --radius-md:      16px;
+  --radius-lg:      24px;
+  --shadow-glass:   0 8px 32px rgba(0, 0, 0, 0.4);
+
+  /* Transitions */
+  --transition-fast: 160ms ease;
+  --transition-med:  300ms ease;
+}
+
+/* --- Reset Básico --- */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 14px;
+  background-color: var(--bg-deep);
+  color: var(--text-primary);
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+
+  /* Gradiente de fundo ambiental estático */
+  background-image:
+    radial-gradient(ellipse 60% 50% at 10% 60%, rgba(59, 130, 246, 0.06) 0%, transparent 70%),
+    radial-gradient(ellipse 50% 40% at 90% 20%, rgba(249, 115, 22, 0.05) 0%, transparent 70%),
+    radial-gradient(ellipse 40% 60% at 50% 90%, rgba(16, 185, 129, 0.03) 0%, transparent 60%);
+  background-attachment: fixed;
+}
+
+#root {
+  display: flex;
+  min-height: 100vh;
+}
+
+/* --- Utilitários de Glassmorphism --- */
+.glass {
+  background:  var(--glass-bg);
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--shadow-glass);
+}
+
+/* --- Scrollbar personalizada --- */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+  background: var(--text-muted);
+  border-radius: 99px;
+}
+::-webkit-scrollbar-thumb:hover { background: var(--text-secondary); }
