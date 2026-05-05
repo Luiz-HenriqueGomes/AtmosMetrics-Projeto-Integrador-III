@@ -15,6 +15,9 @@ from app.models.fato_anomalia_termica import FatoAnomaliaTermica
 from etl.inpe_client import baixar_focos_csv
 from etl.transformers import normalizar_dataframe, construir_dim_tempo
 
+# === Módulo de Carga de Dados ===
+# Responsável por persistir os dados transformados no PostgreSQL,
+# com proteção contra registros duplicados.
 
 # ---- Helpers de Dimensão ---------------------------------------------------
 
