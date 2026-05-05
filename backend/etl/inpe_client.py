@@ -8,6 +8,10 @@ import pandas as pd
 from datetime import date
 from io import StringIO
 
+# === Cliente INPE ===
+# Módulo responsável pelo download de dados de focos de calor
+# através da API/FTP do INPE (Instituto Nacional de Pesquisas Espaciais).
+
 # URL base da API pública do INPE (Programa Queimadas)
 # Formato atual do arquivo: focos_diario_br_YYYYMMDD.csv (atualizado em abr/2026)
 INPE_BASE_URL = (
