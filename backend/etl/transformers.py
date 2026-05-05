@@ -8,6 +8,10 @@ import pandas as pd
 from datetime import date, datetime
 from typing import Optional
 
+# === Módulo de Transformação de Dados ===
+# Responsável por normalizar e limpar os dados brutos do INPE
+# antes da persistência no banco de dados.
+
 # ---- Mapeamentos -----------------------------------------------------------
 
 # Mapeia o nome do estado (como vem do INPE) para a UF de 2 letras
