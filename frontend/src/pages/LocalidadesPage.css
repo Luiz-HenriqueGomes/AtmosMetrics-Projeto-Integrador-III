@@ -1,0 +1,237 @@
+/* ============================================================
+   AtmosMetrics — Localidades Page
+   ============================================================ */
+
+.localidades-page {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* Header */
+.loc-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.loc-title {
+  font-size: 1.75rem;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  background: linear-gradient(90deg, #f1f5f9 0%, #60a5fa 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  line-height: 1.2;
+}
+
+.loc-subtitle {
+  color: var(--text-secondary);
+  font-size: 13px;
+  margin-top: 0.25rem;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+/* Toolbar */
+.loc-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.loc-search-wrap {
+  position: relative;
+  flex: 1;
+  min-width: 200px;
+  max-width: 300px;
+}
+
+.loc-search-icon {
+  position: absolute;
+  left: 0.75rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-muted);
+  pointer-events: none;
+}
+
+.loc-search {
+  width: 100%;
+  background: var(--bg-elevated);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-sm);
+  padding: 0.5rem 0.75rem 0.5rem 2.2rem;
+  color: var(--text-primary);
+  font-size: 13px;
+  font-family: 'Inter', sans-serif;
+  outline: none;
+  transition: border-color var(--transition-fast);
+}
+
+.loc-search:focus {
+  border-color: var(--accent);
+}
+
+/* Region Tabs */
+.loc-region-tabs {
+  display: flex;
+  gap: 0.35rem;
+  flex-wrap: wrap;
+}
+
+.region-tab {
+  background: transparent;
+  border: 1px solid var(--glass-border);
+  border-radius: 99px;
+  padding: 0.35rem 0.75rem;
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.region-tab:hover {
+  color: var(--text-primary);
+  border-color: var(--text-secondary);
+}
+
+.region-tab.active {
+  color: var(--accent-light);
+  border-color: var(--accent);
+  background: rgba(59, 130, 246, 0.08);
+}
+
+/* Grid */
+.loc-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 1rem;
+}
+
+/* Card */
+.loc-card {
+  background: var(--glass-bg);
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-md);
+  padding: 1.25rem 1.25rem 1rem;
+  position: relative;
+  overflow: hidden;
+  transition: transform var(--transition-med), box-shadow var(--transition-med), border-color var(--transition-med);
+  cursor: default;
+}
+
+.loc-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--card-glow, transparent);
+  opacity: 0;
+  transition: opacity var(--transition-med);
+  pointer-events: none;
+}
+
+.loc-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 40px rgba(0,0,0,0.4);
+  border-color: var(--card-accent, var(--glass-border));
+}
+
+.loc-card:hover::before { opacity: 1; }
+
+.loc-card-bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 3px;
+  height: 100%;
+  border-radius: 99px 0 0 99px;
+}
+
+.loc-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.75rem;
+}
+
+.loc-uf-badge {
+  font-size: 1.2rem;
+  font-weight: 800;
+  letter-spacing: 1px;
+  padding: 0.35rem 0.7rem;
+  border-radius: 8px;
+}
+
+.loc-region-tag {
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+}
+
+.loc-card-name {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 0.5rem;
+}
+
+.loc-card-meta {
+  display: flex;
+  gap: 1rem;
+  font-size: 11px;
+  color: var(--text-muted);
+  margin-bottom: 0.6rem;
+}
+
+.loc-card-meta span {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.loc-card-biomas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+  margin-top: 0.25rem;
+}
+
+.bioma-tag {
+  font-size: 10px;
+  padding: 0.15rem 0.5rem;
+  border-radius: 99px;
+  background: rgba(255,255,255,0.05);
+  color: var(--text-secondary);
+  border: 1px solid rgba(255,255,255,0.06);
+}
+
+/* Skeleton */
+.skeleton-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 1.25rem;
+  min-height: 120px;
+}
+
+.skeleton-cell {
+  border-radius: 4px;
+  background: linear-gradient(90deg, var(--bg-elevated) 25%, var(--glass-border) 50%, var(--bg-elevated) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+@keyframes shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
