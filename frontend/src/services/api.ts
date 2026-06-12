@@ -1,3 +1,5 @@
+// Servico de comunicacao com a API backend (FastAPI)
+// Centraliza todas as chamadas HTTP do frontend
 // ============================================================
 // AtmosMetrics — API Service
 // Camada de comunicação com o backend FastAPI em localhost:8000
