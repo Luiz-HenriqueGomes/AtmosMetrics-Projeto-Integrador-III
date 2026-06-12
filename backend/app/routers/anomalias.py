@@ -1,3 +1,4 @@
+# Router de Anomalias Termicas - Endpoints REST para focos de calor
 # ============================================================
 # AtmosMetrics — routers/anomalias.py
 # Endpoints: /api/v1/anomalias

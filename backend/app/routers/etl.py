@@ -1,3 +1,4 @@
+# Router ETL - Endpoints para execucao dos pipelines de ingestao
 # ============================================================
 # AtmosMetrics — routers/etl.py
 # Endpoints: /api/v1/etl
