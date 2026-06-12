@@ -150,6 +150,39 @@ export default function QualidadeArPage() {
     return { groupedData: grouped, worstCity: worst, bestCity: best };
   }, [data]);
 
+  // Memoiza os marcadores do mapa FORA do JSX (regra de hooks)
+  const mapMarkers = useMemo(() => data.map(item => {
+    if (!item.latitude || !item.longitude || !item.aqi) return null;
+    const status = getAqiStatus(item.aqi);
+    const radius = Math.max(8, (item.aqi / 500) * 25);
+    
+    return (
+      <CircleMarker
+        key={`map-${item.id_qualidade_ar}`}
+        center={[Number(item.latitude), Number(item.longitude)]}
+        radius={radius}
+        pathOptions={{ 
+          color: status.color, 
+          fillColor: status.color, 
+          weight: 2, 
+          opacity: 0.9, 
+          fillOpacity: 0.7 
+        }}
+      >
+        <Popup>
+          <div style={{ color: '#000', fontFamily: 'Inter, sans-serif' }}>
+            <h4 style={{ margin: '0 0 4px 0', fontSize: '14px' }}>{formatLocationName(item.municipio)}</h4>
+            <p style={{ margin: 0, fontSize: '12px', color: '#666' }}>{item.pais}</p>
+            <div style={{ marginTop: '8px', padding: '6px', background: status.color, color: '#fff', borderRadius: '4px', textAlign: 'center', fontWeight: 'bold' }}>
+              AQI: {item.aqi} - {status.label}
+            </div>
+            {item.pm2_5 && <p style={{ margin: '6px 0 0 0', fontSize: '11px' }}>PM2.5: {item.pm2_5} μg/m³</p>}
+          </div>
+        </Popup>
+      </CircleMarker>
+    );
+  }), [data]);
+
   return (
     <div className="aqi-container">
       {/* Cabeçalho */}
@@ -251,37 +284,7 @@ export default function QualidadeArPage() {
             />
             <WindVelocityLayer />
             
-            {useMemo(() => data.map(item => {
-              if (!item.latitude || !item.longitude || !item.aqi) return null;
-              const status = getAqiStatus(item.aqi);
-              const radius = Math.max(8, (item.aqi / 500) * 25);
-              
-              return (
-                <CircleMarker
-                  key={`map-${item.id_qualidade_ar}`}
-                  center={[Number(item.latitude), Number(item.longitude)]}
-                  radius={radius}
-                  pathOptions={{ 
-                    color: status.color, 
-                    fillColor: status.color, 
-                    weight: 2, 
-                    opacity: 0.9, 
-                    fillOpacity: 0.7 
-                  }}
-                >
-                  <Popup>
-                    <div style={{ color: '#000', fontFamily: 'Inter, sans-serif' }}>
-                      <h4 style={{ margin: '0 0 4px 0', fontSize: '14px' }}>{formatLocationName(item.municipio)}</h4>
-                      <p style={{ margin: 0, fontSize: '12px', color: '#666' }}>{item.pais}</p>
-                      <div style={{ marginTop: '8px', padding: '6px', background: status.color, color: '#fff', borderRadius: '4px', textAlign: 'center', fontWeight: 'bold' }}>
-                        AQI: {item.aqi} - {status.label}
-                      </div>
-                      {item.pm2_5 && <p style={{ margin: '6px 0 0 0', fontSize: '11px' }}>PM2.5: {item.pm2_5} μg/m³</p>}
-                    </div>
-                  </Popup>
-                </CircleMarker>
-              );
-            }), [data])}
+            {mapMarkers}
           </MapContainer>
         </div>
 

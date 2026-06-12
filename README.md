@@ -1,80 +1,206 @@
-# AtmosMetrics
+# 🌍 AtmosMetrics — Monitoramento Socioambiental Global
 
-![AtmosMetrics Banner](https://via.placeholder.com/1200x300.png?text=AtmosMetrics+-+Monitoramento+Socioambiental+Global)
-
-> Sistema corporativo de monitoramento socioambiental, climático e de qualidade do ar em tempo real, baseado em dados oficiais de agências espaciais e ambientais.
+> Plataforma analítica para monitoramento de focos de calor, clima global e qualidade do ar em tempo real, construída com arquitetura conteinerizada (Docker).
 
 ---
 
-## 🌍 Visão Geral
+## 📋 Sobre o Projeto
 
-O **AtmosMetrics** é uma plataforma analítica projetada para fornecer uma visão de alto nível sobre indicadores cruciais do nosso planeta. Integrando dados em tempo real, o sistema processa informações sobre focos de incêndio, índices de qualidade do ar (AQI), anomalias térmicas e clima, apresentando-os em um painel interativo e imersivo.
+O **AtmosMetrics** é um sistema web que integra dados de múltiplas fontes ambientais e os apresenta em um dashboard interativo com mapas, rankings e métricas em tempo real.
 
-Nossa missão com o AtmosMetrics é democratizar o acesso a dados ambientais densos e técnicos, transformando-os em visualizações atraentes que facilitam a tomada de decisão para ambientalistas, governos e empresas.
+### Fontes de Dados
+| Fonte | Dados | Cobertura |
+|-------|-------|-----------|
+| **INPE** | Focos de calor (queimadas) | Brasil — por estado |
+| **Open-Meteo** | Temperatura, umidade, vento | Global — capitais e cidades principais |
+| **OpenWeatherMap** | Qualidade do ar (AQI, PM2.5, PM10) | Global |
 
----
-
-## 🏛️ Arquitetura do Sistema
-
-O projeto adota uma arquitetura conteinerizada moderna (Docker), segmentada em três grandes pilares:
-
-### 1. Banco de Dados e Data Warehouse
-Utilizamos **PostgreSQL 16** com a extensão espacial **PostGIS 3.4** para armazenamento e cruzamento geográfico dos dados. 
-O modelo de dados é construído sob a premissa de um *Star Schema* (Data Warehouse) otimizado para agregações analíticas rápidas:
-- **Tabelas Fato:** Focos de Calor, Clima e Qualidade do Ar (AQI).
-- **Tabelas Dimensão:** Tempo, Satélites e Localidades.
-
-### 2. Back-end e Pipeline ETL
-O back-end foi desenvolvido em **Python 3.12** utilizando **FastAPI**.
-Ele opera como o orquestrador do sistema, expondo rotas RESTful síncronas e assíncronas que alimentam o Dashboard.
-Além da API, o Back-end abriga nossos **Pipelines de ETL (Extract, Transform, Load)** que capturam dados brutos das seguintes fontes:
-- **INPE (Instituto Nacional de Pesquisas Espaciais):** Focos de calor ativos em solo Brasileiro via Satélites.
-- **OpenWeatherMap:** Informações globais de qualidade do ar (PM2.5, PM10, Monóxido de Carbono).
-- **Open-Meteo:** Dados climáticos globais (Vento, Temperatura).
-
-### 3. Front-end e Dashboard Interativo
-A interface do usuário é construída com **React 19** e **Vite**, adotando o poder da tipagem estática do **TypeScript**.
-Focada puramente em *User Experience (UX)* e *User Interface (UI)* de alta qualidade, a interface apresenta:
-- **Painéis (Bento Box Grids):** Visualizações limpas inspiradas no design moderno de aplicativos.
-- **Mapas Interativos GIS (Leaflet):** Mapas topográficos e de satélite interativos que sobrepõem polígonos, heatmaps e partículas de vento georreferenciadas globalmente (arquitetura semelhante a projetos como IQAir e Earth Nullschool).
-- **Gráficos Dinâmicos (Recharts):** Métricas acompanhadas visualmente.
+### Funcionalidades
+- **Dashboard Principal** — Mapa interativo com focos de calor por estado (Brasil) e clima por país (mundo), com rankings e KPIs
+- **Temperaturas Extremas** — Listagem filtrada de ondas de calor e frio extremo globais, com exportação para PDF e CSV
+- **Qualidade do Ar** — Monitoramento de AQI com mapa de partículas de vento e ranking por país
+- **Localidades** — Exploração de todas as localidades monitoradas com filtros por continente e país
+- **Satélites** — Informações dos satélites que alimentam os dados de queimadas
+- **Configurações** — Execução manual dos pipelines de ETL e gerenciamento do sistema
 
 ---
 
-## 🚀 Tecnologias e Stack
+## 🏛️ Arquitetura
 
-**Infraestrutura:**
-- Docker & Docker Compose
+O projeto utiliza **Docker Compose** para orquestrar 4 contêineres:
 
-**Back-end:**
-- Python 3.12
-- FastAPI
-- SQLAlchemy (ORM)
-- Pydantic (Validação de Schemas)
-- httpx (Requisições assíncronas de ETL)
-
-**Front-end:**
-- React 19
-- TypeScript
-- Vite
-- React Leaflet (Mapas interativos)
-- Leaflet Velocity (Física de partículas de vento)
-- Recharts (Gráficos)
-- Lucide React (Ícones)
-- CSS Vanilla (Sistema de design sólido e flexível)
-
-**Banco de Dados:**
-- PostgreSQL 16
-- PostGIS 3.4
+```
+┌──────────────────────────────────────────────────┐
+│                 Docker Compose                    │
+│                                                   │
+│  ┌─────────────┐  ┌─────────────┐  ┌───────────┐ │
+│  │  Frontend    │  │  Backend    │  │  pgAdmin   │ │
+│  │  React/Vite  │  │  FastAPI    │  │  Painel DB │ │
+│  │  :5173       │  │  :8000      │  │  :8080     │ │
+│  └──────┬───────┘  └──────┬──────┘  └─────┬─────┘ │
+│         │                 │               │       │
+│         │        ┌────────┴────────┐      │       │
+│         └───────►│   PostgreSQL    │◄─────┘       │
+│                  │   + PostGIS     │              │
+│                  │   :5432         │              │
+│                  └─────────────────┘              │
+└──────────────────────────────────────────────────┘
+```
 
 ---
 
-## 🛡️ Princípios de Design
+## 🛠️ Stack Tecnológica
 
-1. **Aesthetics & UX:** Acreditamos que relatórios ambientais não precisam ser monótonos. Utilizamos paletas *Dark Mode*, *Glassmorphism* sutil e animações de estado fluidas.
-2. **Performático:** Utilização do FastAPI assíncrono e Vite (Rollup) no React para garantir que os dados carreguem quase que instantaneamente.
-3. **Escalável e Modulável:** Toda a ingestão de dados (ETL) e a arquitetura das APIs são segmentadas para que novos painéis (ex: Monitoramento de Desmatamento, Chuvas) possam ser acoplados rapidamente no futuro.
+| Camada | Tecnologia |
+|--------|------------|
+| **Frontend** | React 19, TypeScript, Vite, Leaflet (mapas), Recharts (gráficos), Framer Motion |
+| **Backend** | Python 3.12, FastAPI, SQLAlchemy, httpx (requisições assíncronas) |
+| **Banco de Dados** | PostgreSQL 16 + PostGIS 3.4 |
+| **Infraestrutura** | Docker, Docker Compose |
+| **Administração** | pgAdmin 4 |
 
 ---
 
-*Desenvolvido como projeto em Dev Web II, com foco na consolidação de arquiteturas web escaláveis e interativas.*
+## 🚀 Como Executar
+
+### Pré-requisitos
+- [Docker Desktop](https://www.docker.com/products/docker-desktop/) instalado e rodando
+- [Git](https://git-scm.com/) instalado
+
+### Passo a Passo
+
+**1. Clone o repositório:**
+```bash
+git clone https://github.com/Luiz-HenriqueGomes/AtmosMetrics-Projeto-Integrador-III.git
+cd AtmosMetrics-Projeto-Integrador-III
+```
+
+**2. Crie o arquivo `.env` na raiz do projeto:**
+```env
+# PostgreSQL
+POSTGRES_DB=atmosmetrics
+POSTGRES_USER=atmos_user
+POSTGRES_PASSWORD=atmos_dev_secure123
+POSTGRES_HOST=localhost
+POSTGRES_PORT=5432
+
+# pgAdmin
+PGADMIN_DEFAULT_EMAIL=admin@atmosmetrics.com
+PGADMIN_DEFAULT_PASSWORD=admin
+```
+
+**3. Suba os contêineres:**
+```bash
+docker compose up -d --build
+```
+
+**4. Aguarde todos os serviços ficarem saudáveis** (aprox. 1-2 minutos na primeira vez):
+```bash
+docker compose ps
+```
+Todos os contêineres devem estar com status `Up` ou `Healthy`.
+
+**5. Carregue os dados executando os pipelines de ETL:**
+```bash
+# Focos de calor do INPE (Brasil)
+curl -X POST http://localhost:8000/api/v1/etl/executar-sync
+
+# Dados climáticos globais (Open-Meteo)
+curl -X POST http://localhost:8000/api/v1/etl/executar-clima-sync
+```
+
+**6. Acesse a aplicação:**
+
+| Serviço | URL | Credenciais |
+|---------|-----|-------------|
+| **Frontend (Dashboard)** | http://localhost:5173 | — |
+| **Backend (API Swagger)** | http://localhost:8000/docs | — |
+| **pgAdmin** | http://localhost:8080 | `admin@atmosmetrics.com` / `admin` |
+
+---
+
+## 📁 Estrutura do Projeto
+
+```
+AtmosMetrics-Projeto-Integrador-III/
+├── docker-compose.yml          # Orquestração dos 4 contêineres
+├── .env                        # Variáveis de ambiente (não versionado)
+├── .gitignore
+├── Documentação.pdf            # Documentação acadêmica completa
+│
+├── backend/                    # API REST + Pipelines de ETL
+│   ├── Dockerfile
+│   ├── requirements.txt
+│   └── app/
+│       ├── main.py             # Entry point do FastAPI
+│       ├── database.py         # Conexão com PostgreSQL
+│       ├── config.py           # Configurações do ambiente
+│       ├── models/             # Modelos SQLAlchemy (ORM)
+│       ├── routers/            # Rotas da API REST
+│       ├── schemas/            # Schemas Pydantic (validação)
+│       └── etl/                # Pipelines de ingestão de dados
+│
+├── frontend/                   # Interface React/TypeScript
+│   ├── Dockerfile
+│   ├── package.json
+│   └── src/
+│       ├── App.tsx             # Componente raiz + roteamento
+│       ├── pages/              # Páginas do dashboard
+│       ├── components/         # Componentes reutilizáveis
+│       └── services/api.ts     # Camada de comunicação com o backend
+│
+└── database/
+    └── init/                   # Scripts SQL de inicialização
+        ├── 01_schema.sql       # Criação das tabelas (Star Schema)
+        └── 02_populate.sql     # Dados iniciais (satélites, localidades)
+```
+
+---
+
+## 🔌 Endpoints da API
+
+| Método | Endpoint | Descrição |
+|--------|----------|-----------|
+| `GET` | `/` | Health check e status da API |
+| `GET` | `/api/v1/anomalias/` | Listar focos de calor com filtros |
+| `GET` | `/api/v1/anomalias/resumo` | Resumo agregado (por UF, bioma, país) |
+| `GET` | `/api/v1/clima/` | Dados climáticos globais |
+| `GET` | `/api/v1/clima/resumo` | Resumo climático global |
+| `GET` | `/api/v1/clima/extremas` | Temperaturas extremas filtradas |
+| `GET` | `/api/v1/qualidade-ar/` | Dados de qualidade do ar |
+| `GET` | `/api/v1/localidades/` | Todas as localidades monitoradas |
+| `GET` | `/api/v1/satelites/` | Satélites cadastrados |
+| `POST` | `/api/v1/etl/executar-sync` | Executar ETL do INPE |
+| `POST` | `/api/v1/etl/executar-clima-sync` | Executar ETL de clima |
+| `POST` | `/api/v1/etl/executar-global-sync` | Executar todos os ETLs |
+
+Documentação interativa completa disponível em: `http://localhost:8000/docs`
+
+---
+
+## 🛑 Comandos Úteis
+
+```bash
+# Parar todos os contêineres
+docker compose down
+
+# Parar e remover volumes (reset completo do banco)
+docker compose down -v
+
+# Ver logs do backend em tempo real
+docker compose logs -f backend
+
+# Acessar o banco de dados via terminal
+docker compose exec db psql -U atmos_user -d atmosmetrics
+
+# Reconstruir após alterações no código
+docker compose up -d --build
+```
+
+---
+
+## 👥 Equipe
+
+Desenvolvido como projeto acadêmico de **Projeto Integrador III** — FAESA.
+
+---
