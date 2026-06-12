@@ -1,3 +1,4 @@
+# Loader - Carregamento dos dados transformados no PostgreSQL
 # ============================================================
 # AtmosMetrics — etl/loader.py
 # Carrega os dados transformados no banco PostgreSQL

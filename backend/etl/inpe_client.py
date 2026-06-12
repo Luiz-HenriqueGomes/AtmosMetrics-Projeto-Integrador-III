@@ -1,3 +1,5 @@
+# ETL Client para dados do INPE (Instituto Nacional de Pesquisas Espaciais)
+# Responsavel por extrair dados de focos de calor do BDQueimadas
 # ============================================================
 # AtmosMetrics — etl/inpe_client.py
 # Download dos CSVs diários de focos de calor do INPE
