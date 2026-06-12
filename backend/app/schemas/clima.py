@@ -1,3 +1,4 @@
+# Schema Pydantic - Validacao de dados climaticos globais
 # ============================================================
 # AtmosMetrics — schemas/clima.py
 # Pydantic: serialização de dados climáticos para a API

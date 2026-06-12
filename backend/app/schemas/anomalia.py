@@ -1,3 +1,4 @@
+# Schema Pydantic - Validacao de dados de anomalias termicas
 # ============================================================
 # AtmosMetrics — schemas/anomalia.py
 # Pydantic: serialização dos focos de calor para a API
