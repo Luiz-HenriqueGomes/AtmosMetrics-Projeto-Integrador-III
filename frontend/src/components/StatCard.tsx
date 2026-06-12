@@ -1,3 +1,4 @@
+// Componente StatCard - Card de metricas com icone e animacao
 import { useEffect, useState } from 'react';
 import { type LucideIcon } from 'lucide-react';
 import { motion, animate } from 'framer-motion';

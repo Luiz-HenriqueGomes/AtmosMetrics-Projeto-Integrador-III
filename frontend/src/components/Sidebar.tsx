@@ -1,3 +1,5 @@
+// Componente Sidebar - Navegacao principal do dashboard
+// Implementa menu lateral com links, tema e status da API
 import { LayoutDashboard, Thermometer, MapPin, Satellite, Activity, Settings, Sun, Moon, Wind } from 'lucide-react';
 import './Sidebar.css';
 
