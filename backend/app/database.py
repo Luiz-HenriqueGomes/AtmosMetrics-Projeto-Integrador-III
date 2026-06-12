@@ -1,3 +1,4 @@
+# Conexao com PostgreSQL via SQLAlchemy (engine + session)
 # ============================================================
 # AtmosMetrics — database.py
 # Engine SQLAlchemy + gerenciamento de sessão

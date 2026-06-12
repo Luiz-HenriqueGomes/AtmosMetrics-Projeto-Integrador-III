@@ -1,3 +1,4 @@
+# Configuracao do ambiente - variaveis e conexao com banco
 # ============================================================
 # AtmosMetrics — config.py
 # Lê as variáveis de ambiente do .env (raiz do projeto)
