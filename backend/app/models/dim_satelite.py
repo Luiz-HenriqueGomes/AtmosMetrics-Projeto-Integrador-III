@@ -1,3 +1,4 @@
+# Modelo ORM - Dimensao Satelite
 # ============================================================
 # AtmosMetrics — models/dim_satelite.py
 # ORM: Dimensão Satélite (espelha a tabela dim_satelite)

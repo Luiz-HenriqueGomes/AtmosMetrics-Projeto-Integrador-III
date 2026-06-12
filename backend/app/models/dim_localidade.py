@@ -1,3 +1,4 @@
+# Modelo ORM - Dimensao Localidade (PostgreSQL + PostGIS)
 # ============================================================
 # AtmosMetrics — models/dim_localidade.py
 # ORM: Dimensão Localidade (espelha a tabela dim_localidade)
