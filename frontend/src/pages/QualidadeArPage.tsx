@@ -55,14 +55,20 @@ const formatLocationName = (str: string | null) => {
   }).join(' ');
 };
 
-// Padrão EPA de AQI (0 a 500)
+// Padrão OpenWeatherMap de AQI (1 a 5)
 const getAqiStatus = (aqi: number) => {
+  if (aqi === 1) return { class: 'good', label: 'Bom', color: '#10b981' };
+  if (aqi === 2) return { class: 'moderate', label: 'Razoável', color: '#facc15' };
+  if (aqi === 3) return { class: 'sensitive', label: 'Moderado', color: '#f97316' };
+  if (aqi === 4) return { class: 'unhealthy', label: 'Ruim', color: '#ef4444' };
+  if (aqi >= 5) return { class: 'hazardous', label: 'Muito Ruim', color: '#9f1239' };
+  
+  // Fallback legacy (0-500) se ainda existir sujeira no banco
   if (aqi <= 50) return { class: 'good', label: 'Bom', color: '#10b981' };
-  if (aqi <= 100) return { class: 'moderate', label: 'Moderado', color: '#facc15' };
-  if (aqi <= 150) return { class: 'sensitive', label: 'Insalubre p/ Sensíveis', color: '#f97316' };
-  if (aqi <= 200) return { class: 'unhealthy', label: 'Insalubre', color: '#ef4444' };
-  if (aqi <= 300) return { class: 'very', label: 'Muito Insalubre', color: '#8b5cf6' };
-  return { class: 'hazardous', label: 'Perigoso', color: '#9f1239' };
+  if (aqi <= 100) return { class: 'moderate', label: 'Razoável', color: '#facc15' };
+  if (aqi <= 150) return { class: 'sensitive', label: 'Moderado', color: '#f97316' };
+  if (aqi <= 200) return { class: 'unhealthy', label: 'Ruim', color: '#ef4444' };
+  return { class: 'hazardous', label: 'Muito Ruim', color: '#9f1239' };
 };
 
 export default function QualidadeArPage() {
@@ -143,7 +149,7 @@ export default function QualidadeArPage() {
       const aqi = Number(item.aqi) || 0;
       if (aqi > 0) {
         if (!worst || aqi > (Number(worst.aqi) || 0)) worst = item;
-        if (!best || aqi < (Number(best.aqi) || 500)) best = item;
+        if (!best || aqi < (Number(best.aqi) || 5)) best = item;
       }
     });
 
@@ -154,7 +160,8 @@ export default function QualidadeArPage() {
   const mapMarkers = useMemo(() => data.map(item => {
     if (!item.latitude || !item.longitude || !item.aqi) return null;
     const status = getAqiStatus(item.aqi);
-    const radius = Math.max(8, (item.aqi / 500) * 25);
+    // Para aqi de 1-5, o raio varia de ~8 a ~25
+    const radius = Math.max(8, (item.aqi / 5) * 25);
     
     return (
       <CircleMarker
@@ -267,14 +274,13 @@ export default function QualidadeArPage() {
         {/* Mapa Global da NASA / EPA Style */}
         <div className="aqi-map-container">
 
-          {/* Dicionário/Legenda (IQAir Style) */}
+          {/* Dicionário/Legenda (OpenWeatherMap Style) */}
           <div className="aqi-map-legend">
-            <div className="legend-item bg-aqi-good">0-50 Bom</div>
-            <div className="legend-item bg-aqi-moderate">51-100 Moderado</div>
-            <div className="legend-item bg-aqi-sensitive">101-150 Sensíveis</div>
-            <div className="legend-item bg-aqi-unhealthy">151-200 Insalubre</div>
-            <div className="legend-item bg-aqi-very">201-300 Muito Insalubre</div>
-            <div className="legend-item bg-aqi-hazardous">300+ Perigoso</div>
+            <div className="legend-item bg-aqi-good">1 - Bom</div>
+            <div className="legend-item bg-aqi-moderate">2 - Razoável</div>
+            <div className="legend-item bg-aqi-sensitive">3 - Moderado</div>
+            <div className="legend-item bg-aqi-unhealthy">4 - Ruim</div>
+            <div className="legend-item bg-aqi-hazardous">5 - Muito Ruim</div>
           </div>
 
           <MapContainer center={[15, 0]} zoom={2} minZoom={2} preferCanvas={true}>
@@ -380,8 +386,8 @@ export default function QualidadeArPage() {
                         const status = getAqiStatus(aqi);
                         const cityName = item.cityName;
 
-                        // Range de 0 a 500 para a barra
-                        let pct = (aqi / 500) * 100;
+                        // Range de 1 a 5 para a barra
+                        let pct = (aqi / 5) * 100;
                         if (pct > 100) pct = 100;
 
                         return (
