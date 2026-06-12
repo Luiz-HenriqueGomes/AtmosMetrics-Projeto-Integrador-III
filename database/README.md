@@ -77,3 +77,8 @@ docker-compose exec db psql -U atmos_user -d atmosmetrics
 docker-compose down          # Para e remove os containers (dados persistem)
 docker-compose down -v       # ⚠️ Para E APAGA todos os dados!
 ```
+
+
+## Contribuidores
+
+Equipe de desenvolvimento do projeto AtmosMetrics.
