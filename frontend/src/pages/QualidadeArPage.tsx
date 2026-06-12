@@ -381,6 +381,7 @@ export default function QualidadeArPage() {
                   <div className="aqi-bento-card-body">
                     {uniqueItems
                       .sort((a, b) => (Number(b.aqi) || 0) - (Number(a.aqi) || 0))
+                      .slice(0, 5) // Mostra apenas as 5 piores cidades
                       .map(item => {
                         const aqi = Number(item.aqi) || 0;
                         const status = getAqiStatus(aqi);
