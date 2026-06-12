@@ -38,3 +38,7 @@ logs/
 frontend/node_modules/
 frontend/dist/
 frontend/.vite/
+
+# --- Temporarios ---
+*.tmp
+*.bak
