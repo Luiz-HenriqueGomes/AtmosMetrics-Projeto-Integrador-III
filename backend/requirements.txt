@@ -21,3 +21,5 @@ pandas==2.2.2
 # Testes
 pytest==8.2.2
 pytest-asyncio==0.23.7
+
+# Dependencias de teste
