@@ -79,3 +79,5 @@ volumes:
   pgdata:
     name: atmosmetrics_pgdata
 
+
+# Ambiente orquestrado via Docker Compose
