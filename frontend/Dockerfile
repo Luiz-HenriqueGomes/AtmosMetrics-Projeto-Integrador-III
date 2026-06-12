@@ -1,3 +1,5 @@
+# Dockerfile - Frontend React/Vite (Node 22)
+# Build com hot-reload para desenvolvimento
 # ============================================================
 # AtmosMetrics — Dockerfile do Frontend (Vite/React)
 # ============================================================

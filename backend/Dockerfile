@@ -1,3 +1,5 @@
+# Dockerfile - Backend FastAPI (Python 3.12)
+# Build multi-stage para producao
 # ============================================================
 # AtmosMetrics — Dockerfile do Backend (FastAPI)
 # ============================================================
