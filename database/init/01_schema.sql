@@ -1,4 +1,8 @@
 -- ============================================================
+-- AtmosMetrics - Schema do Banco de Dados (Star Schema)
+-- Autor: Equipe AtmosMetrics
+-- ============================================================
+-- ============================================================
 -- AtmosMetrics — 01_schema.sql
 -- Criação do Star Schema para Monitoramento Socioambiental
 -- ============================================================
